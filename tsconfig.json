@@ -19,5 +19,16 @@
     "allowSyntheticDefaultImports": true, /* Allow 'import x from y' when a module doesn't have a default export. */
     "pretty": true,
     "resolveJsonModule": true,/* Enable importing .json files. */
+    "plugins": [
+      {"transform": "typescript-transform-paths"},
+      {"transform": "typescript-transform-paths", "afterDeclarations": true}
+    ],
+    "paths":{
+      "@global/*": ["src/shared/globals/*"],
+      "@services/*": ["src/shared/services/*"],
+      "@sockets/*": ["src/shared/sockets/*"],
+      "@workers/*": ["src/shared/workers/*"],
+      "@root/*":["src/*"]
+    }
   }
 }
