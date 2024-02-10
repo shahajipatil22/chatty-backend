@@ -1,5 +1,6 @@
 import dotenv from 'dotenv';
 import bunyan from 'bunyan';
+import cloudinary from 'cloudinary';
 
 dotenv.config();
 
@@ -12,6 +13,9 @@ class Config {
   public CLIENT_URL: string;
   public SERVER_PORT: number;
   public REDIS_HOST: string;
+  public CLOUD_NAME: string;
+  public CLOUD_API_KEY: string;
+  public CLOUD_API_SECRET: string;
 
   private DEFAULT_DATABASE_URL: string = 'mongodb://127.0.0.1:27017/chattyapp-backend';
 
@@ -24,6 +28,9 @@ class Config {
     this.CLIENT_URL = process.env.CLIENT_URL || '';
     this.SERVER_PORT = Number(process.env.SERVER_PORT) || 5000;
     this.REDIS_HOST = process.env.REDIS_HOST || '';
+    this.CLOUD_NAME = process.env.CLOUD_NAME || '';
+    this.CLOUD_API_KEY = process.env.CLOUD_API_KEY || '';
+    this.CLOUD_API_SECRET = process.env.CLOUD_API_SECRET || '';
   }
 
   public createLogger(name: string): bunyan {
@@ -36,6 +43,14 @@ class Config {
         throw new Error(`Missing configuration for ${key}`);
       }
     }
+  }
+
+  public cloudinaryConfig(): void {
+    cloudinary.v2.config({
+      cloud_name: this.CLOUD_NAME,
+      api_key: this.CLOUD_API_KEY,
+      api_secret: this.CLOUD_API_SECRET
+    });
   }
 }
 
